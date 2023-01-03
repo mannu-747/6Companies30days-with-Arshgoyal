@@ -1,0 +1,31 @@
+class Solution {
+    public int evalRPN(String[] tokens) {
+        if (tokens == null || tokens.length == 0) return 0;
+
+    Stack<Long> stack = new Stack<>();
+    for (String s : tokens) {
+        if (!isOperator(s)) stack.push(Long.parseLong(s));
+        else {
+            long numB = stack.pop(), numA = stack.pop();
+            stack.push(eval(numA, numB, s));                
+        }
+    }
+    return stack.pop().intValue();
+}
+
+private boolean isOperator(String s) {
+    if (s.length() != 1) return false;
+    char c = s.charAt(0);
+    return c == '+' || c == '-' || c == '/' || c == '*';
+}
+
+private long eval(long a, long b, String s) {
+    long rst = 0;
+    char operator = s.charAt(0);
+    if (operator == '+') rst = a + b;
+    if (operator == '-') rst = a - b;
+    if (operator == '*') rst = a * b;
+    if (operator == '/') rst = a / b;
+	return rst;
+}
+}
